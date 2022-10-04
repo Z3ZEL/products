@@ -40,7 +40,7 @@ __Input__
 | Parameter | Type                                          | Description                         |
 | --------- | --------------------------------------------- | ----------------------------------- |
 | layer     | ``Texture2D``                                 | The layer to add                    |
-| operation | [``PAUM_LayerOperator``](#paum-layeroperator) | The operation to apply to the layer |
+| operation | [``PAUM_LayerOperator``](#paum_layeroperator) | The operation to apply to the layer |
 
 __Output__
 
