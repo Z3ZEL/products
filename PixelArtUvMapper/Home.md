@@ -14,6 +14,6 @@
 ## Tutorials
 
 ## References
-
+* ### [Classes](Classes.md)
 * ### [Components](Components.md)
 
