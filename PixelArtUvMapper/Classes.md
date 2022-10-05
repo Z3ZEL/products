@@ -4,7 +4,8 @@
 ### Table of Contents <!-- omit in toc -->
 - [PAUM_Engine](#paum_engine)
   - [Methods](#methods)
-    - [&#9726;AddLayer](#addlayer)
+    - [&#9726; AddLayer](#-addlayer)
+    - [&#9726; Apply](#-apply)
   - [Static Methods](#static-methods)
 - [PAUM_LayerOperator](#paum_layeroperator)
   - [Methods](#methods-1)
@@ -21,13 +22,19 @@
 ```csharp
 public PAUM_Engine(Texture2D map)
 ```
+__Input__
+
+| Name | Type          | Description                  |
+| ---- | ------------- | ---------------------------- |
+| map  | ``Texture2D`` | The texture to use as a map. |
+
 ---
 
 ## Methods
 
 ---
 
-### &#9726;AddLayer
+### &#9726; AddLayer
 > Add a new layer to the engine. The layer will be added to the list of layers.
 ```csharp
 public PAUM_Engine AddLayer(Texture2D layer,PAUM_LayerOperator operation)
@@ -50,6 +57,19 @@ __Output__
 
 ---
 
+### &#9726; Apply
+> Apply all current layer to the input map.
+```csharp
+public PAUM_Engine Apply()
+```
+
+__Output__
+
+| Type            | Description                       |
+| --------------- | --------------------------------- |
+| ``PAUM_Engine`` | The current instance of the class |
+
+---
 
 ## Static Methods
 
