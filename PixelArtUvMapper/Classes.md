@@ -6,10 +6,12 @@
   - [Methods](#methods)
     - [&#9726; AddLayer](#-addlayer)
     - [&#9726; Apply](#-apply)
-  - [Static Methods](#static-methods)
+    - [&#9726; MapTexture](#-maptexture)
 - [PAUM_LayerOperator](#paum_layeroperator)
   - [Methods](#methods-1)
     - [getPixelAt](#getpixelat)
+- [PAUM_LayerOperator_REPLACE](#paum_layeroperator_replace)
+- [PAUM_MapBuilder](#paum_mapbuilder)
 
 
 ---
@@ -18,6 +20,7 @@
 > This class is the main class of the plugin. It is used to create a new instance of the plugin. It is also used to create a new instance of the `PAUM_Mesh` class.
 
 ---
+
 ## Contructor <!-- omit in toc -->
 ```csharp
 public PAUM_Engine(Texture2D map)
@@ -39,8 +42,6 @@ __Input__
 ```csharp
 public PAUM_Engine AddLayer(Texture2D layer,PAUM_LayerOperator operation)
 ```
-
-
 
 __Input__
 
@@ -71,7 +72,28 @@ __Output__
 
 ---
 
-## Static Methods
+### &#9726; MapTexture
+
+> Map the input texture according to the map texture and the current skin texture return the mapped texture.
+
+```csharp
+public Texture2D MapTexture(Texture2D inputTex)
+```
+
+__Input__
+
+| Name     | Type          | Description         |
+| -------- | ------------- | ------------------- |
+| inputTex | ``Texture2D`` | The texture to map. |
+
+__Output__
+
+| Type          | Description                       |
+| ------------- | --------------------------------- |
+| ``Texture2D`` | The mapped texture.               |
+
+---
+
 
 # PAUM_LayerOperator
 ## Description  <!-- omit in toc -->
@@ -83,3 +105,26 @@ __Output__
     public virtual Color getPixelAt(PAUM_MapData data,Texture2D layer, int x, int y)
 ```
 > Return the operation to apply to the pixel at the given position
+
+# PAUM_LayerOperator_REPLACE 
+> Derive from [`PAUM_LayerOperator`](#paum_layeroperator)
+
+## Description <!-- omit in toc -->
+> Replace all pixel on the current texture by none-transparent pixel of the layer 
+
+---
+
+# PAUM_MapBuilder
+
+## Description <!-- omit in toc -->
+> Class to build a map texture from an input texture and custom regions
+
+## Constructor <!-- omit in toc -->
+
+```csharp
+public PAUM_MapBuilder(Texture2D input, List<PAUM_RegionPoint> regions)
+```
+
+__Input__
+
+| 
