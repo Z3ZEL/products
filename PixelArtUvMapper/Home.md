@@ -1,5 +1,5 @@
 # Pixel Art Uv Mapper
-
+![Pixel Art Uv Mapper](res/PAUMLOGO.svg)
 > You can check the roadmap [here](https://woozy-durian-0c5.notion.site/Roadmap-4d4d409b9e0c4a7bb685ba38dfbec057)
 
 - [Pixel Art Uv Mapper](#pixel-art-uv-mapper)
@@ -12,7 +12,7 @@
     - [How to map a my texture](#how-to-map-a-my-texture)
   - [References](#references)
 
-<center><img src="res/PAUMLOGO.svg" alt="PAUM"/> </center>
+
 
 ## Getting started
 
