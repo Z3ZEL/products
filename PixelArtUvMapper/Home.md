@@ -39,4 +39,4 @@
 >All the detailled references of each class and components
 * ### [Classes](Classes.md)
 * ### [Components](Components.md)
-
+* ### [Shaders](Shaders.md)
