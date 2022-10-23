@@ -17,7 +17,14 @@
     - [&#9726; BuildMap](#-buildmap)
   - [Static Methods](#static-methods)
     - [&#9726; SaveMap](#-savemap)
+- [Layers](#layers)
+  - [Methods](#methods-3)
+    - [&#9726; CheckValueChanging](#-checkvaluechanging)
+    - [&#9726; AddLayer](#-addlayer-1)
+    - [&#9726; ChangeLayerAt](#-changelayerat)
+  - [Properties](#properties)
 
+ > ⚠️ The title of each class are cut for lisibility reason. Their real name in the package are beggining with `PAUM_`. For example `Engine` is `PAUM_Engine` in the package. 
 
 ---
 # Engine
@@ -26,7 +33,7 @@
 
 ---
 
-## Contructor <!-- omit in toc -->
+## Constructor <!-- omit in toc -->
 ```csharp
 public PAUM_Engine(Texture2D map)
 ```
@@ -114,12 +121,12 @@ __Output__
 
 __Input__
 
-| Name  | Type                    | Description                            |
-| ----- | ----------------------- | -------------------------------------- |
-| data  | [``MapData``](#mapdata) | The map data.                          |
-| layer | ``Texture2D``           | The layer texture                      |
-| x     | ``int``                 | The x position of the pixel to process |
-| y     | ``int``                 | The y position of the pixel to process |
+| Name  | Type                         | Description                            |
+| ----- | ---------------------------- | -------------------------------------- |
+| data  | [``PAUM_MapData``](#mapdata) | The map data.                          |
+| layer | ``Texture2D``                | The layer texture                      |
+| x     | ``int``                      | The x position of the pixel to process |
+| y     | ``int``                      | The y position of the pixel to process |
 
 __Output__
 
@@ -128,7 +135,7 @@ __Output__
 | ``Color`` | The color to apply to the given pixel at the output texture |
 
 # LayerOperator_REPLACE 
-> Derive from [`LayerOperator`](#layeroperator), it's also an example of how to create your own operator. 
+> Derive from [`PAUM_LayerOperator`](#layeroperator), it's also an example of how to create your own operator. 
 
 ## Description <!-- omit in toc -->
 > Replace all pixel on the current texture by none-transparent pixel of the layer 
@@ -139,6 +146,8 @@ __Output__
 
 ## Description <!-- omit in toc -->
 > Class to build a map texture from an input texture and custom regions
+
+---
 
 ## Constructor <!-- omit in toc -->
 
@@ -152,6 +161,8 @@ __Input__
 | ------- | -------------------------- | ----------------------------------------- |
 | input   | ``Texture2D``              | The input texture to create the map from. |
 | regions | ``List<PAUM_RegionPoint>`` | The regions to use to create the map.     |
+
+---
 
 ## Methods
 
@@ -179,4 +190,89 @@ __Output__
 public static bool SaveMap(string path, Texture2D map)
 ```
 
->             //SAVE MAP AS TEXTURE TO THE PATH RELATIVE TO APPLICATION.dataPath then add read write permission
+> Save map as texture to the path relative to Application.dataPath then add read and write permission. Use in Map Builder windows. Don't use it outside of the editor.
+
+__Input__
+
+| Name | Type          | Description               |
+| ---- | ------------- | ------------------------- |
+| path | ``string``    | The path                  |
+| map  | ``Texture2D`` | The generated map to save |
+
+__Output__
+
+| Type     | Description                              |
+| -------- | ---------------------------------------- |
+| ``bool`` | True if the map has been saved correctly |
+
+# Layers
+## Description <!-- omit in toc -->
+> This class is used to store the value of a component. It is used by the [Component](Components.md#component) class to store its values
+
+---
+## Constructor <!-- omit in toc -->
+```csharp
+public PAUM_Layers(Texture2D[] value)
+```
+__Input__
+
+| Name  | Type          | Description                        |
+| ----- | ------------- | ---------------------------------- |
+| value | ``Texture2D`` | layers to pass as beginning values |
+
+
+## Methods
+
+### &#9726; CheckValueChanging
+> Check if the value of the component is changing. This method is used internally by the plugin. You can use it if you're creating your own component.
+
+```csharp
+public bool CheckValueChanging(Texture2D[] newTab)
+```
+__Input__
+
+| Name   | Type          | Description                                                      |
+| ------ | ------------- | ---------------------------------------------------------------- |
+| newTab | ``Texture2D`` | The new tab which will be compared to the internal current value |
+
+---
+
+### &#9726; AddLayer
+> Add a new layer to the list of layers.
+
+```csharp
+public void AddLayer(Texture2D layer, int index)
+```
+
+__Input__
+
+| Name  | Type          | Description                                         |
+| ----- | ------------- | --------------------------------------------------- |
+| layer | ``Texture2D`` | The layer to add                                    |
+| index | ``int``       | (Optional) The index where the layer will be added. |
+
+
+---
+### &#9726; ChangeLayerAt
+> Change the layer at the given index.
+
+```csharp
+public void ChangeLayerAt(int index, Texture2D layer)
+```
+
+__Input__
+
+| Name  | Type          | Description                                         |
+| ----- | ------------- | --------------------------------------------------- |
+| index | ``int``       | The index of the layer to change                    |
+| layer | ``Texture2D`` | The new layer to apply to the given index           |
+
+## Properties
+
+| Name         | Type            | Description       |
+| ------------ | --------------- | ----------------- |
+| currentValue | ``Texture2D[]`` | The current value |
+
+
+
+
