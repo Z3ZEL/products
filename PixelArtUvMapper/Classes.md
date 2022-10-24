@@ -2,38 +2,38 @@
 # Classes <!-- omit in toc -->
 
 ### Table of Contents <!-- omit in toc -->
-- [Engine](#engine)
-  - [Methods](#methods)
-    - [&#9726; AddLayer](#-addlayer)
-    - [&#9726; Apply](#-apply)
-    - [&#9726; MapTexture](#-maptexture)
-- [MapData](#mapdata)
-- [LayerOperator](#layeroperator)
-  - [Methods](#methods-1)
-    - [&#9726; getPixelAt](#-getpixelat)
-- [LayerOperator_REPLACE](#layeroperator_replace)
-- [MapBuilder](#mapbuilder)
-  - [Methods](#methods-2)
-    - [&#9726; BuildMap](#-buildmap)
-  - [Static Methods](#static-methods)
-    - [&#9726; SaveMap](#-savemap)
-- [Layers](#layers)
-  - [Methods](#methods-3)
-    - [&#9726; CheckValueChanging](#-checkvaluechanging)
-    - [&#9726; AddLayer](#-addlayer-1)
-    - [&#9726; ChangeLayerAt](#-changelayerat)
-  - [Properties](#properties)
+- [**Engine**](#engine)
+  - [*Methods*](#methods)
+    - [**AddLayer**](#addlayer)
+    - [**Apply**](#apply)
+    - [**MapTexture**](#maptexture)
+- [**MapData**](#mapdata)
+  - [*Properties*](#properties)
+- [**LayerOperator**](#layeroperator)
+  - [*Methods*](#methods-1)
+    - [**getPixelAt**](#getpixelat)
+- [**LayerOperator_REPLACE**](#layeroperator_replace)
+- [**MapBuilder**](#mapbuilder)
+  - [*Methods*](#methods-2)
+    - [**BuildMap**](#buildmap)
+  - [*Static Methods*](#static-methods)
+    - [**SaveMap**](#savemap)
+- [**Layers**](#layers)
+  - [*Methods*](#methods-3)
+    - [**CheckValueChanging**](#checkvaluechanging)
+    - [**AddLayer**](#addlayer-1)
+    - [**ChangeLayerAt**](#changelayerat)
+  - [*Properties*](#properties-1)
 
  > ⚠️ The title of each class are cut for lisibility reason. Their real name in the package are beggining with `PAUM_`. For example `Engine` is `PAUM_Engine` in the package. 
 
 ---
-# Engine
-## Description <!-- omit in toc -->
+# **Engine**
+## *Description* <!-- omit in toc -->
 > This class is the main class of the plugin. It is used to create a new instance of the plugin. It is also used to create a new instance of the `PAUM_Mesh` class.
 
----
 
-## Constructor <!-- omit in toc -->
+## *Constructor* <!-- omit in toc -->
 ```csharp
 public PAUM_Engine(Texture2D map)
 ```
@@ -43,13 +43,10 @@ __Input__
 | ---- | ------------- | ---------------------------- |
 | map  | ``Texture2D`` | The texture to use as a map. |
 
----
 
-## Methods
+## *Methods*
 
----
-
-### &#9726; AddLayer
+### **AddLayer**
 > Add a new layer to the engine. The layer will be added to the list of layers.
 ```csharp
 public PAUM_Engine AddLayer(Texture2D layer,PAUM_LayerOperator operation)
@@ -70,7 +67,7 @@ __Output__
 
 ---
 
-### &#9726; Apply
+### **Apply**
 > Apply all current layer to the input map.
 ```csharp
 public PAUM_Engine Apply()
@@ -82,9 +79,8 @@ __Output__
 | --------------- | --------------------------------- |
 | ``PAUM_Engine`` | The current instance of the class |
 
----
 
-### &#9726; MapTexture
+### **MapTexture**
 
 > Map the input texture according to the map texture and the current skin texture return the mapped texture.
 
@@ -105,15 +101,41 @@ __Output__
 | ``Texture2D`` | The mapped texture. |
 
 ---
-# MapData
-## Description <!-- omit in toc -->
+# **MapData**
+## *Description* <!-- omit in toc -->
 > This class is used to store the data of a map. It is used by the [Engine](#engine) class to store the data of the map.
-# LayerOperator
-## Description  <!-- omit in toc -->
-> Base interface for creating custom operation on the current texture with a new layer. There are already built-in operators but you can add your own ones to fit your specific needs.  <!-- omit in toc -->
+
+## *Constructor* <!-- omit in toc -->
+```csharp
+public PAUM_MapData(Texture2D map, Vector2 texSize)
+```
+
+__Input__
+
+| Name     | Type          | Description                  |
+| -------- | ------------- | ---------------------------- |
+| map      | ``Texture2D`` | The texture to use as a map. |
+| texSize🔨 | ``Vector2``   | The size of the map texture. |
+
+
+
+## *Properties*
+
+| Name            | Type                        | Description                                                                                |
+| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ |
+| getMap          | ``Texture2D``               | The map texture.                                                                           |
+| getCurrentTex 🔨 | ``Texture2D``               | The current layer of the map, it's the result of Operation                                 |
+| getTexSize      | ``Vector2``                 | The size of the map texture.                                                               |
+| getPairedColors | ``Dictionary<Color,Color>`` | The unique pixels of the map texture as key referring to the same position pixels as value |
+
+
+
 ---
-## Methods
-### &#9726; getPixelAt
+# **LayerOperator**
+## *Description*  <!-- omit in toc -->
+> Base interface for creating custom operation on the current texture with a new layer. There are already built-in operators but you can add your own ones to fit your specific needs.  <!-- omit in toc -->
+## *Methods*
+### **getPixelAt**
 ```csharp
     public virtual Color getPixelAt(PAUM_MapData data,Texture2D layer, int x, int y)
 ```
@@ -133,23 +155,21 @@ __Output__
 | Type      | Description                                                 |
 | --------- | ----------------------------------------------------------- |
 | ``Color`` | The color to apply to the given pixel at the output texture |
-
-# LayerOperator_REPLACE 
+# **LayerOperator_REPLACE** 
 > Derive from [`PAUM_LayerOperator`](#layeroperator), it's also an example of how to create your own operator. 
 
-## Description <!-- omit in toc -->
+## *Description* <!-- omit in toc -->
 > Replace all pixel on the current texture by none-transparent pixel of the layer 
 
 ---
+# **MapBuilder**
 
-# MapBuilder
-
-## Description <!-- omit in toc -->
+## *Description* <!-- omit in toc -->
 > Class to build a map texture from an input texture and custom regions
 
 ---
 
-## Constructor <!-- omit in toc -->
+## *Constructor* <!-- omit in toc -->
 
 ```csharp
 public PAUM_MapBuilder(Texture2D input, List<PAUM_RegionPoint> regions)
@@ -164,9 +184,9 @@ __Input__
 
 ---
 
-## Methods
+## *Methods*
 
-### &#9726; BuildMap
+### **BuildMap**
 
 ```csharp
 public Texture2D BuildMap()
@@ -182,9 +202,9 @@ __Output__
 
 ---
 
-## Static Methods
+## *Static Methods*
 
-### &#9726; SaveMap
+### **SaveMap**
 
 ```csharp
 public static bool SaveMap(string path, Texture2D map)
@@ -204,13 +224,12 @@ __Output__
 | Type     | Description                              |
 | -------- | ---------------------------------------- |
 | ``bool`` | True if the map has been saved correctly |
-
-# Layers
-## Description <!-- omit in toc -->
+# **Layers**
+## *Description* <!-- omit in toc -->
 > This class is used to store the value of a component. It is used by the [Component](Components.md#component) class to store its values
 
 ---
-## Constructor <!-- omit in toc -->
+## *Constructor* <!-- omit in toc -->
 ```csharp
 public PAUM_Layers(Texture2D[] value)
 ```
@@ -221,9 +240,9 @@ __Input__
 | value | ``Texture2D`` | layers to pass as beginning values |
 
 
-## Methods
+## *Methods*
 
-### &#9726; CheckValueChanging
+### **CheckValueChanging**
 > Check if the value of the component is changing. This method is used internally by the plugin. You can use it if you're creating your own component.
 
 ```csharp
@@ -237,7 +256,7 @@ __Input__
 
 ---
 
-### &#9726; AddLayer
+### **AddLayer**
 > Add a new layer to the list of layers.
 
 ```csharp
@@ -253,7 +272,7 @@ __Input__
 
 
 ---
-### &#9726; ChangeLayerAt
+### **ChangeLayerAt**
 > Change the layer at the given index.
 
 ```csharp
@@ -262,12 +281,12 @@ public void ChangeLayerAt(int index, Texture2D layer)
 
 __Input__
 
-| Name  | Type          | Description                                         |
-| ----- | ------------- | --------------------------------------------------- |
-| index | ``int``       | The index of the layer to change                    |
-| layer | ``Texture2D`` | The new layer to apply to the given index           |
+| Name  | Type          | Description                               |
+| ----- | ------------- | ----------------------------------------- |
+| index | ``int``       | The index of the layer to change          |
+| layer | ``Texture2D`` | The new layer to apply to the given index |
 
-## Properties
+## *Properties*
 
 | Name         | Type            | Description       |
 | ------------ | --------------- | ----------------- |
