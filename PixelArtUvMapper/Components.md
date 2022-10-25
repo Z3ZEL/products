@@ -1,4 +1,4 @@
-# Components <!-- omit in toc --> 
+# Components <!-- omit in toc --> 🏠 [Home](Home.md)
 ---
 - [**Component** , PAUM_ComponentEvent](#component--paum_componentevent)
   - [*Methods*](#methods)
