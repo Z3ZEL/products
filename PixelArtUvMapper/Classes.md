@@ -12,6 +12,7 @@
 - [**LayerOperator**](#layeroperator)
   - [*Methods*](#methods-1)
     - [**getPixelAt**](#getpixelat)
+    - [**Operate**](#operate)
 - [**LayerOperator_REPLACE**](#layeroperator_replace)
 - [**MapBuilder**](#mapbuilder)
   - [*Methods*](#methods-2)
@@ -64,8 +65,6 @@ __Output__
 | Type            | Description                       |
 | --------------- | --------------------------------- |
 | ``PAUM_Engine`` | The current instance of the class |
-
----
 
 ### **Apply**
 > Apply all current layer to the input map.
@@ -139,7 +138,7 @@ __Input__
 ```csharp
     public virtual Color getPixelAt(PAUM_MapData data,Texture2D layer, int x, int y)
 ```
-> Return the operation to apply to the pixel at the given position. This method will be call for each pixel of the texture to map when you will build the layer. Don't call this method directly, it is used internally by the plugin.
+> Return the operation to apply to the pixel at the given position. This method will be call for each pixel of the texture to map when you will build the layer. Don't call this method directly, it is used internally by the plugin. But override it to create your own operation.
 
 __Input__
 
@@ -155,6 +154,29 @@ __Output__
 | Type      | Description                                                 |
 | --------- | ----------------------------------------------------------- |
 | ``Color`` | The color to apply to the given pixel at the output texture |
+
+### **Operate**
+
+> Apply the operation to the given layer, output the result in of the old layer in map data combined with the new layer. *it doesn't change the current layer of the map data*
+
+```csharp
+public virtual Texture2D Operate(PAUM_MapData data, Texture2D layer)
+```
+
+__Input__
+
+| Name  | Type                         | Description                 |
+| ----- | ---------------------------- | --------------------------- |
+| data  | [``PAUM_MapData``](#mapdata) | The map data.               |
+| layer | ``Texture2D``                | The layer new layer texture |
+
+__Output__
+
+| Type          | Description                                                     |
+| ------------- | --------------------------------------------------------------- |
+| ``Texture2D`` | The new layer texture combined with the map data existing layer |
+
+---
 # **LayerOperator_REPLACE** 
 > Derive from [`PAUM_LayerOperator`](#layeroperator), it's also an example of how to create your own operator. 
 
@@ -166,8 +188,6 @@ __Output__
 
 ## *Description* <!-- omit in toc -->
 > Class to build a map texture from an input texture and custom regions
-
----
 
 ## *Constructor* <!-- omit in toc -->
 
@@ -181,8 +201,6 @@ __Input__
 | ------- | -------------------------- | ----------------------------------------- |
 | input   | ``Texture2D``              | The input texture to create the map from. |
 | regions | ``List<PAUM_RegionPoint>`` | The regions to use to create the map.     |
-
----
 
 ## *Methods*
 
@@ -224,11 +242,12 @@ __Output__
 | Type     | Description                              |
 | -------- | ---------------------------------------- |
 | ``bool`` | True if the map has been saved correctly |
+
+---
 # **Layers**
 ## *Description* <!-- omit in toc -->
 > This class is used to store the value of a component. It is used by the [Component](Components.md#component) class to store its values
 
----
 ## *Constructor* <!-- omit in toc -->
 ```csharp
 public PAUM_Layers(Texture2D[] value)
@@ -254,8 +273,6 @@ __Input__
 | ------ | ------------- | ---------------------------------------------------------------- |
 | newTab | ``Texture2D`` | The new tab which will be compared to the internal current value |
 
----
-
 ### **AddLayer**
 > Add a new layer to the list of layers.
 
@@ -270,8 +287,6 @@ __Input__
 | layer | ``Texture2D`` | The layer to add                                    |
 | index | ``int``       | (Optional) The index where the layer will be added. |
 
-
----
 ### **ChangeLayerAt**
 > Change the layer at the given index.
 
