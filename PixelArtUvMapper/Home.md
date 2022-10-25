@@ -11,7 +11,7 @@
   - [Tutorials](#tutorials)
     - [How to create a map texture](#how-to-create-a-map-texture)
     - [How to create a texture to map](#how-to-create-a-texture-to-map)
-    - [How to create a skin texture](#how-to-create-a-skin-texture)
+    - [How to create a layers/skin texture](#how-to-create-a-layersskin-texture)
     - [How to map a my texture](#how-to-map-a-my-texture)
     - [How to evolve my sprite at runtime](#how-to-evolve-my-sprite-at-runtime)
   - [References](#references)
@@ -37,11 +37,15 @@ The map texture is the texture that contains unique pixels color. You will use t
 - **Create a map by your own** : You can create a map by your own by creating a texture and then paint the pixels with unique colors.
 - **Using the texture generator** : 
   1. Open the map generator window by clicking on the menu `Window/PAUM/Map Builder`.
-  
+<!-- TODO: Faire le tuto avec capture -->
 
 
 ### How to create a texture to map
-### How to create a skin texture
+### How to create a layers/skin texture
+
+All the layers texture must have *the same size* as the map texture. The layer texture is the texture that contains the pixels that will be mapped in the texture to map. Pixel positions are important, they define each unique pixel of the map texture. To sum up the layer texture is the texture that contains the rendering pixels of the map.
+
+
 ### How to map a my texture
 > There is a lot of way to map the texture, PAUM provides a lot of components and shader to achieve this
 
@@ -69,7 +73,33 @@ ___
 ### How to evolve my sprite at runtime
 
 - **With shader** :
+  You can modify in run time multiple variables of the shader. You can modify the texture to map, the map texture and the layer texture.
+  To access to the shader variables you need to access to the material of the ``Sprite Renderer`` component. Then you can use methods of the ``Material`` class to change property like so :
+
+  ```csharp	
+  mat.SetTexture(string name, Texture value);
+  ```
+
+  The ``name`` variable is the name of the property you want to change. The ``value`` variable is the value you want to assign to the property. You can find the name of the properties in the wanted shader doc &rarr; [Shader Doc](Shader.md)
+
+
+
 - **With component** :
+  
+  To modify textures of a component at runtime you need to access to its [PAUM_ComponentValue](Classes.md#-paum_componentvalue) property. Then you have access to the ``currentValue`` property which can be modified. Then the component will automatically apply the changes to the texture to map if you turn the bool ``Auto Apply`` to true else you can call the [Apply](Components.md#apply) method to apply the changes.
+
+  *Example* :
+
+  ```csharp
+  // Get the component
+  PAUMSprite paumSprite = GetComponent<PAUMSprite>();
+  // Get the component value
+  PAUM_Texture map = paumSprite.map; //can be textureToMap
+  // Modify the texture to map
+  map.currentValue = newMap;
+  // Apply the changes if Auto Apply turned off
+  paumSprite.Apply();
+  ```
 
 ## References
 >All the detailled references of each class and components
