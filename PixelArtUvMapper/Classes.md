@@ -1,5 +1,5 @@
 <!-- 
-@TODO: MAKE GETTER AND SETTER FOR ALL PROPERTIES
+@TODO: MAKE NAMESPACE
  -->
 # Classes <!-- omit in toc -->
 
@@ -130,12 +130,12 @@ __Input__
 
 ## *Properties*
 
-| Name            | Type                        | Description                                                                                |
-| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ |
-| getMap          | ``Texture2D``               | The map texture.                                                                           |
-| getCurrentTex 🔨 | ``Texture2D``               | The current layer of the map, it's the result of Operation                                 |
-| getTexSize      | ``Vector2``                 | The size of the map texture.                                                               |
-| getPairedColors | ``Dictionary<Color,Color>`` | The unique pixels of the map texture as key referring to the same position pixels as value |
+| Name            | Type                        | Description                                                                                | get | set |
+| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ | --- | --- |
+| getMap          | ``Texture2D``               | The map texture.                                                                           | ✔️   | ❌   |
+| getCurrentTex 🔨 | ``Texture2D``               | The current layer of the map, it's the result of Operation                                 | ✔️   | ✔️   |
+| getTexSize      | ``Vector2``                 | The size of the map texture.                                                               | ✔️   | ❌   |
+| getPairedColors | ``Dictionary<Color,Color>`` | The unique pixels of the map texture as key referring to the same position pixels as value | ✔️   | ❌   |
 
 
 
@@ -270,8 +270,8 @@ public void Subscribe(PAUM_ComponentEvent listener)
 
 __Input__
 
-| Name     | Type                                       | Description                                         |
-| -------- | ------------------------------------------ | --------------------------------------------------- |
+| Name     | Type                                                    | Description                                         |
+| -------- | ------------------------------------------------------- | --------------------------------------------------- |
 | listener | [``PAUM_ComponentEvent``](Interfaces.md#componentevent) | The listener which will subscribe to variable event |
 
 ### **Unsubscribe**
@@ -348,9 +348,9 @@ __Input__
 
 ## *Properties*
 
-| Name         | Type            | Description       |
-| ------------ | --------------- | ----------------- |
-| currentValue | ``Texture2D[]`` | The current value |
+| Name         | Type            | Description       | Get | Set |
+| ------------ | --------------- | ----------------- |--| -- |
+| currentValue | ``Texture2D[]`` | The current value | ✔️ | ✔️ |
 
 ---
 # **Texture** &rarr; [``PAUM_ComponentValue``](#componentvalue) 
@@ -391,7 +391,7 @@ __Input__
 
 | Name         | Type          | Description       | get | set |
 | ------------ | ------------- | ----------------- | --- | --- |
-| currentValue | ``Texture2D`` | The current value | X   | X   |
+| currentValue | ``Texture2D`` | The current value | ✔️  | ✔️  |
 
 
 
