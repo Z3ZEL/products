@@ -1,4 +1,6 @@
-
+<!-- 
+@TODO: MAKE GETTER AND SETTER FOR ALL PROPERTIES
+ -->
 # Classes <!-- omit in toc -->
 
 ### Table of Contents <!-- omit in toc -->
@@ -13,18 +15,26 @@
   - [*Methods*](#methods-1)
     - [**getPixelAt**](#getpixelat)
     - [**Operate**](#operate)
-- [**LayerOperator_REPLACE**](#layeroperator_replace)
+- [**LayerOperator_REPLACE** &rarr; ``PAUM_LayerOperator``](#layeroperator_replace--paum_layeroperator)
 - [**MapBuilder**](#mapbuilder)
   - [*Methods*](#methods-2)
     - [**BuildMap**](#buildmap)
   - [*Static Methods*](#static-methods)
     - [**SaveMap**](#savemap)
-- [**Layers**](#layers)
+- [**ComponentValue**](#componentvalue)
   - [*Methods*](#methods-3)
+    - [**Subscribe**](#subscribe)
+    - [**Unsubscribe**](#unsubscribe)
+- [**Layers** &rarr; ``PAUM_ComponentValue``](#layers--paum_componentvalue)
+  - [*Methods*](#methods-4)
     - [**CheckValueChanging**](#checkvaluechanging)
     - [**AddLayer**](#addlayer-1)
     - [**ChangeLayerAt**](#changelayerat)
   - [*Properties*](#properties-1)
+- [**Texture** &rarr; ``PAUM_ComponentValue``](#texture--paum_componentvalue)
+  - [*Methods*](#methods-5)
+    - [**CheckValueChanging**](#checkvaluechanging-1)
+  - [*Properties*](#properties-2)
 
  > ⚠️ The title of each class are cut for lisibility reason. Their real name in the package are beggining with `PAUM_`. For example `Engine` is `PAUM_Engine` in the package. 
 
@@ -177,7 +187,7 @@ __Output__
 | ``Texture2D`` | The new layer texture combined with the map data existing layer |
 
 ---
-# **LayerOperator_REPLACE** 
+# **LayerOperator_REPLACE** &rarr; [``PAUM_LayerOperator``](#layeroperator)
 > Derive from [`PAUM_LayerOperator`](#layeroperator), it's also an example of how to create your own operator. 
 
 ## *Description* <!-- omit in toc -->
@@ -210,7 +220,7 @@ __Input__
 public Texture2D BuildMap()
 ```
 
-> Build the map texture from the input texture and the regions. Return the map texture
+> Build the map texture from the input texture and the regions. Return the map texture. This class is used by the Map Builder window to build the map texture. You can use it by yourself but it's not recommended.
 
 __Output__
 
@@ -244,7 +254,42 @@ __Output__
 | ``bool`` | True if the map has been saved correctly |
 
 ---
-# **Layers**
+# **ComponentValue**
+## *Description* <!-- omit in toc -->
+> Abstract class to describe a variable data used by a [Component](#component) all component variable derive from this class
+
+## *Methods*
+
+### **Subscribe**
+
+```csharp
+public void Subscribe(PAUM_ComponentEvent listener)
+```
+
+> Subscribe a listener to the event of the variable. The listener will be called when the variable value change.
+
+__Input__
+
+| Name     | Type                                       | Description                                         |
+| -------- | ------------------------------------------ | --------------------------------------------------- |
+| listener | [``PAUM_ComponentEvent``](Interfaces.md#componentevent) | The listener which will subscribe to variable event |
+
+### **Unsubscribe**
+
+```csharp
+public void Unsubscribe(PAUM_ComponentEvent listener)
+```
+
+> Unsubscribe a listener to the event of the variable. The listener will not be called when the variable value change.
+
+__Input__
+
+| Name     | Type                                       | Description                                           |
+| -------- | ------------------------------------------ | ----------------------------------------------------- |
+| listener | [``PAUM_ComponentEvent``](#componentevent) | The listener which will unsubscribe to variable event |
+
+---
+# **Layers** &rarr; [``PAUM_ComponentValue``](#componentvalue)
 ## *Description* <!-- omit in toc -->
 > This class is used to store the value of a component. It is used by the [Component](Components.md#component) class to store its values
 
@@ -307,6 +352,46 @@ __Input__
 | ------------ | --------------- | ----------------- |
 | currentValue | ``Texture2D[]`` | The current value |
 
+---
+# **Texture** &rarr; [``PAUM_ComponentValue``](#componentvalue) 
+
+## *Description* <!-- omit in toc -->
+
+> This component variable is used to store a texture value by the [Components](Components.md#component). It will be used to store the map and the texture to map.
+
+## *Constructor* <!-- omit in toc -->
+
+```csharp
+public PAUM_Texture(Texture2D value)
+```
+
+__Input__
+
+| Name  | Type          | Description                        |
+| ----- | ------------- | ---------------------------------- |
+| value | ``Texture2D`` | texture to pass as beginning value |
+
+## *Methods*
+
+### **CheckValueChanging**
+
+```csharp
+public bool CheckValueChanging(Texture2D newTex)
+```
+
+> Check if the value of the component is changing if it changed it will remplace the old value. This method is used internally by the plugin. You can use it if you're creating your own component.
+
+__Input__
+
+| Name   | Type          | Description                                                  |
+| ------ | ------------- | ------------------------------------------------------------ |
+| newTex | ``Texture2D`` | The new texture which will be compared to the internal value |
+
+## *Properties*
+
+| Name         | Type          | Description       | get | set |
+| ------------ | ------------- | ----------------- | --- | --- |
+| currentValue | ``Texture2D`` | The current value | X   | X   |
 
 
 
