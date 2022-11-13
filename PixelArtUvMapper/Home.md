@@ -35,10 +35,12 @@ ___
 The map texture is the texture that contains unique pixels color. You will use these pixels to create a texture to map, you can either create a map by your own or use the map generator to create a map texture.
 
 - **Create a map by your own** : You can create a map by your own by creating a texture and then paint the pixels with unique colors.
-- **Using the texture generator** : 
+- **Using the map texture generator** : 
   1. Open the map generator window by clicking on the menu `Window/PAUM/Map Builder`.
 <!-- TODO: Faire le tuto avec capture -->
-
+  2. Assign a base sprite that you want to extract your map texture. Note that the base sprite texture will be useless because our system works with a map texture and a skin texture.
+  3. Create a `Region data` (an object which will hold temporary region data of a texutre)
+  4. Then you can start adding region, regions will compose your final map texture and they will have separated colors, which is cool when you will create some texture to map to avoid a messy texture.
 
 ### How to create a texture to map
 ### How to create a layers/skin texture
