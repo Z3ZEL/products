@@ -1,5 +1,7 @@
-
-# Classes <!-- omit in toc -->
+<!-- 
+@TODO: MAKE NAMESPACE
+ -->
+# Classes <!-- omit in toc --> 🏠 [Home](Home.md)
 
 ### Table of Contents <!-- omit in toc -->
 - [**Engine**](#engine)
@@ -12,18 +14,27 @@
 - [**LayerOperator**](#layeroperator)
   - [*Methods*](#methods-1)
     - [**getPixelAt**](#getpixelat)
-- [**LayerOperator_REPLACE**](#layeroperator_replace)
+    - [**Operate**](#operate)
+- [**LayerOperator_REPLACE** &rarr; ``PAUM_LayerOperator``](#layeroperator_replace--paum_layeroperator)
 - [**MapBuilder**](#mapbuilder)
   - [*Methods*](#methods-2)
     - [**BuildMap**](#buildmap)
   - [*Static Methods*](#static-methods)
     - [**SaveMap**](#savemap)
-- [**Layers**](#layers)
+- [**ComponentValue**](#componentvalue)
   - [*Methods*](#methods-3)
+    - [**Subscribe**](#subscribe)
+    - [**Unsubscribe**](#unsubscribe)
+- [**Layers** &rarr; ``PAUM_ComponentValue``](#layers--paum_componentvalue)
+  - [*Methods*](#methods-4)
     - [**CheckValueChanging**](#checkvaluechanging)
     - [**AddLayer**](#addlayer-1)
     - [**ChangeLayerAt**](#changelayerat)
   - [*Properties*](#properties-1)
+- [**Texture** &rarr; ``PAUM_ComponentValue``](#texture--paum_componentvalue)
+  - [*Methods*](#methods-5)
+    - [**CheckValueChanging**](#checkvaluechanging-1)
+  - [*Properties*](#properties-2)
 
  > ⚠️ The title of each class are cut for lisibility reason. Their real name in the package are beggining with `PAUM_`. For example `Engine` is `PAUM_Engine` in the package. 
 
@@ -64,8 +75,6 @@ __Output__
 | Type            | Description                       |
 | --------------- | --------------------------------- |
 | ``PAUM_Engine`` | The current instance of the class |
-
----
 
 ### **Apply**
 > Apply all current layer to the input map.
@@ -121,12 +130,12 @@ __Input__
 
 ## *Properties*
 
-| Name            | Type                        | Description                                                                                |
-| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ |
-| getMap          | ``Texture2D``               | The map texture.                                                                           |
-| getCurrentTex 🔨 | ``Texture2D``               | The current layer of the map, it's the result of Operation                                 |
-| getTexSize      | ``Vector2``                 | The size of the map texture.                                                               |
-| getPairedColors | ``Dictionary<Color,Color>`` | The unique pixels of the map texture as key referring to the same position pixels as value |
+| Name            | Type                        | Description                                                                                | get | set |
+| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ | --- | --- |
+| getMap          | ``Texture2D``               | The map texture.                                                                           | ✔️   | ❌   |
+| getCurrentTex 🔨 | ``Texture2D``               | The current layer of the map, it's the result of Operation                                 | ✔️   | ✔️   |
+| getTexSize      | ``Vector2``                 | The size of the map texture.                                                               | ✔️   | ❌   |
+| getPairedColors | ``Dictionary<Color,Color>`` | The unique pixels of the map texture as key referring to the same position pixels as value | ✔️   | ❌   |
 
 
 
@@ -139,7 +148,7 @@ __Input__
 ```csharp
     public virtual Color getPixelAt(PAUM_MapData data,Texture2D layer, int x, int y)
 ```
-> Return the operation to apply to the pixel at the given position. This method will be call for each pixel of the texture to map when you will build the layer. Don't call this method directly, it is used internally by the plugin.
+> Return the operation to apply to the pixel at the given position. This method will be call for each pixel of the texture to map when you will build the layer. Don't call this method directly, it is used internally by the plugin. But override it to create your own operation.
 
 __Input__
 
@@ -155,7 +164,30 @@ __Output__
 | Type      | Description                                                 |
 | --------- | ----------------------------------------------------------- |
 | ``Color`` | The color to apply to the given pixel at the output texture |
-# **LayerOperator_REPLACE** 
+
+### **Operate**
+
+> Apply the operation to the given layer, output the result in of the old layer in map data combined with the new layer. *it doesn't change the current layer of the map data*
+
+```csharp
+public virtual Texture2D Operate(PAUM_MapData data, Texture2D layer)
+```
+
+__Input__
+
+| Name  | Type                         | Description                 |
+| ----- | ---------------------------- | --------------------------- |
+| data  | [``PAUM_MapData``](#mapdata) | The map data.               |
+| layer | ``Texture2D``                | The layer new layer texture |
+
+__Output__
+
+| Type          | Description                                                     |
+| ------------- | --------------------------------------------------------------- |
+| ``Texture2D`` | The new layer texture combined with the map data existing layer |
+
+---
+# **LayerOperator_REPLACE** &rarr; [``PAUM_LayerOperator``](#layeroperator)
 > Derive from [`PAUM_LayerOperator`](#layeroperator), it's also an example of how to create your own operator. 
 
 ## *Description* <!-- omit in toc -->
@@ -166,8 +198,6 @@ __Output__
 
 ## *Description* <!-- omit in toc -->
 > Class to build a map texture from an input texture and custom regions
-
----
 
 ## *Constructor* <!-- omit in toc -->
 
@@ -182,8 +212,6 @@ __Input__
 | input   | ``Texture2D``              | The input texture to create the map from. |
 | regions | ``List<PAUM_RegionPoint>`` | The regions to use to create the map.     |
 
----
-
 ## *Methods*
 
 ### **BuildMap**
@@ -192,7 +220,7 @@ __Input__
 public Texture2D BuildMap()
 ```
 
-> Build the map texture from the input texture and the regions. Return the map texture
+> Build the map texture from the input texture and the regions. Return the map texture. This class is used by the Map Builder window to build the map texture. You can use it by yourself but it's not recommended.
 
 __Output__
 
@@ -224,11 +252,47 @@ __Output__
 | Type     | Description                              |
 | -------- | ---------------------------------------- |
 | ``bool`` | True if the map has been saved correctly |
-# **Layers**
+
+---
+# **ComponentValue**
+## *Description* <!-- omit in toc -->
+> Abstract class to describe a variable data used by a [Component](#component) all component variable derive from this class
+
+## *Methods*
+
+### **Subscribe**
+
+```csharp
+public void Subscribe(PAUM_ComponentEvent listener)
+```
+
+> Subscribe a listener to the event of the variable. The listener will be called when the variable value change.
+
+__Input__
+
+| Name     | Type                                                    | Description                                         |
+| -------- | ------------------------------------------------------- | --------------------------------------------------- |
+| listener | [``PAUM_ComponentEvent``](Interfaces.md#componentevent) | The listener which will subscribe to variable event |
+
+### **Unsubscribe**
+
+```csharp
+public void Unsubscribe(PAUM_ComponentEvent listener)
+```
+
+> Unsubscribe a listener to the event of the variable. The listener will not be called when the variable value change.
+
+__Input__
+
+| Name     | Type                                       | Description                                           |
+| -------- | ------------------------------------------ | ----------------------------------------------------- |
+| listener | [``PAUM_ComponentEvent``](#componentevent) | The listener which will unsubscribe to variable event |
+
+---
+# **Layers** &rarr; [``PAUM_ComponentValue``](#componentvalue)
 ## *Description* <!-- omit in toc -->
 > This class is used to store the value of a component. It is used by the [Component](Components.md#component) class to store its values
 
----
 ## *Constructor* <!-- omit in toc -->
 ```csharp
 public PAUM_Layers(Texture2D[] value)
@@ -254,8 +318,6 @@ __Input__
 | ------ | ------------- | ---------------------------------------------------------------- |
 | newTab | ``Texture2D`` | The new tab which will be compared to the internal current value |
 
----
-
 ### **AddLayer**
 > Add a new layer to the list of layers.
 
@@ -270,8 +332,6 @@ __Input__
 | layer | ``Texture2D`` | The layer to add                                    |
 | index | ``int``       | (Optional) The index where the layer will be added. |
 
-
----
 ### **ChangeLayerAt**
 > Change the layer at the given index.
 
@@ -288,10 +348,50 @@ __Input__
 
 ## *Properties*
 
-| Name         | Type            | Description       |
-| ------------ | --------------- | ----------------- |
-| currentValue | ``Texture2D[]`` | The current value |
+| Name         | Type            | Description       | Get | Set |
+| ------------ | --------------- | ----------------- |--| -- |
+| currentValue | ``Texture2D[]`` | The current value | ✔️ | ✔️ |
 
+---
+# **Texture** &rarr; [``PAUM_ComponentValue``](#componentvalue) 
+
+## *Description* <!-- omit in toc -->
+
+> This component variable is used to store a texture value by the [Components](Components.md#component). It will be used to store the map and the texture to map.
+
+## *Constructor* <!-- omit in toc -->
+
+```csharp
+public PAUM_Texture(Texture2D value)
+```
+
+__Input__
+
+| Name  | Type          | Description                        |
+| ----- | ------------- | ---------------------------------- |
+| value | ``Texture2D`` | texture to pass as beginning value |
+
+## *Methods*
+
+### **CheckValueChanging**
+
+```csharp
+public bool CheckValueChanging(Texture2D newTex)
+```
+
+> Check if the value of the component is changing if it changed it will remplace the old value. This method is used internally by the plugin. You can use it if you're creating your own component.
+
+__Input__
+
+| Name   | Type          | Description                                                  |
+| ------ | ------------- | ------------------------------------------------------------ |
+| newTex | ``Texture2D`` | The new texture which will be compared to the internal value |
+
+## *Properties*
+
+| Name         | Type          | Description       | get | set |
+| ------------ | ------------- | ----------------- | --- | --- |
+| currentValue | ``Texture2D`` | The current value | ✔️  | ✔️  |
 
 
 
